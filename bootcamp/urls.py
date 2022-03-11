@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from products.views import(
-    home_view,
+    # bad_view,
+    search_view,
+    product_create_view,
     product_detail_view,
     product_list_view,
     product_api_detail_view
@@ -24,7 +26,9 @@ from products.views import(
 )
 
 urlpatterns = [
-    path('search/', home_view),
+    # path('bad_view_dont_use/', bad_view),
+    path('search/', search_view),
+    path('products/create/', product_create_view),
     path('products/<int:pk>/', product_detail_view),
     path('product/api/<int:pk>/', product_api_detail_view),
     path('products/', product_list_view),

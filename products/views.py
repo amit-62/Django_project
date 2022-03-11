@@ -1,13 +1,55 @@
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render
 from .models import Product
+from .forms import ProductModelForm
 
 
 # Create your views here.
-def home_view(request, *args, **kwargs):
+# def bad_view(request, *args, **kwargs):
+#     # print(dict(request.GET))
+#     my_request_get= dict(request.GET)
+#     new_product = my_request_get.get("new_product")
+#     print(my_request_get,new_product)
+#     if new_product[0].lower()=="true":
+#         print("new product")
+#         Product.objects.create(title=my_request_get.get("title")[0],content=my_request_get.get("content")[0])
+#     return HttpResponse("don't do this")
+
+
+def search_view(request, *args, **kwargs):
     # return HttpResponse("<h1>Hello Amit</h1>")
-    context={'name':'rex'}
+    query=request.GET.get('q')
+    qs = Product.objects.filter(title__icontains=query[0])
+    print(query,qs)
+    context={'name':'rex',"query":query}
     return render(request, "home.html", context)
+
+
+# def product_create_view(request, *args, **kwargs):
+#     print(request.GET)
+#     print(request.POST)
+#     if request.method=="POST":
+#         post_data = request.POST or None
+#         if post_data != None :
+#             my_form = ProductForm(request.POST)
+#             if my_form.is_valid():
+#                 print(my_form.cleaned_data.get("title"))
+#                 title_from_input = my_form.cleaned_data.get("title")
+#                 Product.objects.create(title=title_from_input)
+#             # print("post_data", post_data)
+#
+#     return render(request, "products/forms.html", {})
+
+def product_create_view(request, *args, **kwargs):
+    form = ProductModelForm(request.POST or None)
+    if form.is_valid() :
+        obj=form.save(commit=False)
+        #do some stuff
+        obj.save()
+        # data=form.cleaned_data
+        # Product.objects.create(**data)
+        form=ProductModelForm()
+    return render(request, "products/forms.html", {"form":form})
 
 
 def product_detail_view(request, pk, *args, **kwargs):
