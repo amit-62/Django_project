@@ -7,6 +7,7 @@ from .models import Product
 
 class ProductModelForm( forms.ModelForm ) :
     title = forms.CharField()
+
     class Meta:
         model = Product
         fields = [
@@ -16,6 +17,6 @@ class ProductModelForm( forms.ModelForm ) :
 
     def clean_title(self):
         data=self.cleaned_data.get('title')
-        if len(data)<4:
+        if len(data) < 4:
             raise forms.ValidationError("this is not long enough")
         return data
