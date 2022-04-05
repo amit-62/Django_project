@@ -31,8 +31,13 @@ from accounts.views import(
     logout_view
 )
 
+from orders.views import order_checkout_view
+from django.views.generic import TemplateView
+
 urlpatterns = [
     # path('bad_view_dont_use/', bad_view),
+    path('', TemplateView.as_view(template_name='base.html')),
+    path('checkout/', order_checkout_view),
     path('login/', login_view),
     path('logout/', logout_view),
     path('register/', register_view),

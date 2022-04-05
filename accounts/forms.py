@@ -4,6 +4,7 @@ from django import forms
 User = get_user_model()
 non_allowed_usernames = ["abc"]
 
+
 class RegisterForm(forms.Form):
     username = forms.CharField()
     email = forms.EmailField()
@@ -42,6 +43,7 @@ class RegisterForm(forms.Form):
         if qs.exists():
             raise forms.ValidationError("This is in use email.")
         return email
+
 
 class LoginForm(forms.Form):
     username = forms.CharField()
